@@ -18,7 +18,7 @@ export const useFetchApi= (number) =>{
 
     useEffect(()=>{
 
-        if(number===0) return;
+        if(!number) return;
 
         const url = `https://pokeapi.co/api/v2/pokemon/${number}`;
 

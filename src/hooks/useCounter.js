@@ -16,6 +16,14 @@ export const useCounter = (initialValue = 10) => {
     }
 
     const reset = () =>  setCounter(initialValue)
+
+
+    const getNumber = (number) => {
+        
+           if(number < 0 || number > 150)return;
+           
+        setCounter(number)            
+        }
     
     return{
         counter,
@@ -23,6 +31,7 @@ export const useCounter = (initialValue = 10) => {
         decrement,
         reset,
 
-        setCounter
+        setCounter,
+        getNumber
     }
 }

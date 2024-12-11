@@ -1,17 +1,15 @@
 
-import { useState } from 'react';
 import './App.css'
-import { LoadingMessage, PokeCard } from './components'
+import { LoadingMessage, ModalPokemon, PokeCard, PokeNavigation, PokeSearch } from './components'
 import { useCounter, useFetchApi } from './hooks'
 
 function App() {
 
-  const [currentPokemon, setCurrentPokemon] = useState(0)
-
-  const {counter, increment, decrement, setCounter } = useCounter(initialValue);
+  const initialPokemon = 1;
+  const {counter, increment, decrement,  getNumber} = useCounter(initialPokemon);
   const { data, loading, hasError, errorMessage } = useFetchApi(counter);
 
-
+  
 
   return (
 
@@ -29,14 +27,20 @@ function App() {
         {
           loading && <LoadingMessage /> }
 
-        { !loading && !!counter ?
+        { !loading ?
 
               <>
+              <PokeSearch
+                getNumber={getNumber}
+                counter={counter}
+              />
 
               <PokeCard 
                       data={counter}
                       name={data?.name}
                           id={data?.id}
+
+
 
                             sprites={[
                               data?.sprites.front_default,
@@ -44,50 +48,35 @@ function App() {
                               data?.sprites.front_shiny,
                               data?.sprites.back_shiny
                           ]}
+
+                          height = {data?.height}
+                          weight = {data?.weight}
+                          types = {data?.types}
+                          abilities = {data?.abilities}
+
+                          
                           />
                 
           
+                  <PokeNavigation
+                    increment={increment}
+                    decrement={decrement}
+                    counter={counter}
+                  />
 
-              <button 
-                    className="btn btn-primary mx-2 my-2"
-                    onClick={ ()=> counter > 1 ?  decrement() : null}>
-                    Anterior
-                </button>
+                  <ModalPokemon
+                    stats={data?.stats || []}
+                    name={data?.name}
+                  />
+              
 
-                <button 
-                    className="btn btn-primary mx-2 my-2"
-                    onClick={ increment }>
-                    Siguiente
-                </button>
-
-                <button
-                    className="btn btn-primary mx-2 my-2"
-                    onClick={ ()=> counter > 0 ? counter : null}>
-                    Ver Detalles
-                </button>
+                
 
                 </>
                 : <>
                 <section>
-                  <div className='flex justify-evenly font-bold'>
-                         <label htmlFor="numberPomemon"> 
-                            Ingrese el numero del Pokemon
-                         </label>
+                 
 
-                          <input
-                            type="number"
-                            id="numberPokemon"
-                            value={currentPokemon}
-                            className='border border-gray-300 rounded-md p-2'
-                            onClick={ (e)=> e.target.select()}
-                            onChange={ (e)=> setCurrentPokemon(e.target.value)}
-                          />
-                  </div>
-                  <button
-                    onClick={ ()=> setCounter(currentPokemon)}
-                  >
-                    Buscar Pokemon
-                  </button>
                 </section>
                 </>
              }

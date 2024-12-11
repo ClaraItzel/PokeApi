@@ -1,2 +1,5 @@
 export * from './PokeCard'
 export * from './LoadingMessage'
+export * from './PokeSearch'
+export * from './PokeNavigation'
+export * from './ModalPokemon'
