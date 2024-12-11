@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react"
 const localCache={}
 
-export const useFetchApi= (url) =>{
+export const useFetchApi= (number) =>{
     //CREANDON LAPETICION A LA API
+
+    
+
 
     const [data, setData] = useState({
         data:null,
@@ -11,12 +14,18 @@ export const useFetchApi= (url) =>{
         errorMessage:null
     })
 
+    
 
     useEffect(()=>{
-        setLoading()
-        getFetch(url)
 
-    },[url])
+        if(number===0) return;
+
+        const url = `https://pokeapi.co/api/v2/pokemon/${number}`;
+
+        setLoading()
+       getFetch(url)
+
+    },[number])
 
 
     const setLoading = () =>{
@@ -50,7 +59,7 @@ export const useFetchApi= (url) =>{
 
             setData({
                 data:pokemons,
-                loading:true,
+                loading:false,
                 hasError:false,
                 errorMessage:null
             })
